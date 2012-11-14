@@ -44,7 +44,7 @@ else
 	$dbtype = '';
 }
 
-$lastVer = '1.5';
+$lastVer = '1.6';
 echo '<html><head><meta name="robots" content="noindex,nofollow"><title>myTinyTodo '.Config::get('version').' Setup</title></head><body>';
 echo "<big><b>myTinyTodo ".Config::get('version')." Setup</b></big><br><br>";
 
@@ -238,7 +238,7 @@ elseif($ver == $lastVer)
 }
 else
 {
-	if(!in_array($ver, array('1.1','1.2','1.3.0','1.3.1','1.4'))) {
+	if(!in_array($ver, array('1.1','1.2','1.3.0','1.3.1','1.4','1.5'))) {
 		exitMessage("Can not update. Unsupported database version ($ver).");
 	}
 	if(!isset($_POST['update'])) {
@@ -247,9 +247,10 @@ else
 		<script type=\"text/javascript\">var tz = -1 * (new Date()).getTimezoneOffset(); document.frm.tz.value = tz;</script>
 		");
 	}
-
 	# update process
-	if($ver == '1.4') {
+    if ($ver == '1.5') {
+        update_150_160($db, $dbtype);
+    } elseif($ver == '1.4') {
 		update_14_15($db, $dbtype);
 	} elseif($ver == '1.3.1') {
 		update_131_14($db, $dbtype);
@@ -304,6 +305,12 @@ function get_ver($db, $dbtype)
 	$v = '1.4';
 	if(!$db->table_exists($db->prefix.'v15')) return $v;
 	$v = '1.5';
+    if($dbtype == 'mysql') {
+        if(!has_field_mysql($db, $db->prefix.'todolist', 'duetime')) return $v;
+    } else {
+        if(!has_field_sqlite($db, $db->prefix.'todolist', 'duetime')) return $v;
+    }
+    $v = '1.6';
 	return $v;
 }
 
@@ -825,5 +832,17 @@ function update_14_15($db, $dbtype)
 
 	}
 	$db->ex("COMMIT");
+}
+
+function update_150_160($db, $dbtype)
+{
+    $db->ex("BEGIN");
+    # change in todolist table: prio is INT(3)/INTEGER
+    if($dbtype=='mysql')
+    {
+        $db->ex("ALTER TABLE `{$db->prefix}todolist` ADD COLUMN `duetime` TIME NULL DEFAULT NULL COMMENT 'Due to time' AFTER `duedate`;");
+        $db->ex("ALTER TABLE `{$db->prefix}todolist`  ADD COLUMN `nest_level` INT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'Task nest level' AFTER `duetime`;");
+    }
+    $db->ex("COMMIT");
 }
 ?>

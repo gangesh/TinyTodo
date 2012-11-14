@@ -10,7 +10,7 @@ if(!defined('MTTPATH')) define('MTTPATH', dirname(__FILE__) .'/');
 require_once(MTTPATH. 'common.php');
 require_once(MTTPATH. 'db/config.php');
 
-ini_set('display_errors', 'On');
+ini_set('display_errors', 0);
 
 if(!isset($config)) global $config;
 Config::loadConfig($config);

@@ -731,7 +731,7 @@ function addList()
 		}
 		else _mtt.loadLists();
 	});
-};
+}
 
 function renameCurList()
 {
@@ -747,7 +747,7 @@ function renameCurList()
 		$('#lists ul>.mtt-tabs-selected>a').attr('title', item.name).find('span').html(item.name);
 		mytinytodo.doAction('listRenamed', item);
 	});
-};
+}
 
 function deleteCurList()
 {
@@ -759,7 +759,7 @@ function deleteCurList()
 		if(!parseInt(json.total)) return;
 		_mtt.loadLists();
 	})
-};
+}
 
 function publishCurList()
 {
@@ -776,7 +776,7 @@ function publishCurList()
 			$('#btnRssFeed').addClass('mtt-item-disabled');
 		}
 	});
-};
+}
 
 
 function loadTasks(opts)
@@ -812,8 +812,15 @@ function loadTasks(opts)
 		}
 		refreshTaskCnt();
 		$('#tasklist').html(tasks);
+
+        var parents = [];
+        $.each($('li.nest-level-1').prev('li.nest-level-0'), function (k, v) {
+            var parent = $(v).addClass('has-children');
+            parents.push(parent);
+            parent.nextUntil('li.nest-level-0').wrapAll('<div class="children-container"/>');
+        });
 	});
-};
+}
 
 
 function prepareTaskStr(item, noteExp)
@@ -822,9 +829,13 @@ function prepareTaskStr(item, noteExp)
 	var id = item.id;
 	var prio = item.prio;
 	return '<li id="taskrow_'+id+'" class="' + (item.compl?'task-completed ':'') + item.dueClass + (item.note!=''?' task-has-note':'') +
-				((curList.showNotes && item.note != '') || noteExp ? ' task-expanded' : '') + prepareTagsClass(item.tags_ids) + '">' +
+				((curList.showNotes && item.note != '') || noteExp ? ' task-expanded' : '') + prepareTagsClass(item.tags_ids)
+        + ' nest-level-' + item.nest_level
+        + '">' +
 		'<div class="task-actions"><a href="#" class="taskactionbtn"></a></div>'+"\n"+
-		'<div class="task-left"><div class="task-toggle"></div>'+
+		'<div class="task-left">'+
+        '<div class="show-children">+</div>'+
+        '<div class="task-toggle"></div>'+
 		'<input type="checkbox" '+(flag.readOnly?'disabled="disabled"':'')+(item.compl?'checked="checked"':'')+'/></div>'+"\n"+
 		'<div class="task-middle"><div class="task-through-right">'+prepareDuedate(item)+
 		'<span class="task-date-completed"><span title="'+item.dateInlineTitle+'">'+item.dateInline+'</span>&#8212;'+
@@ -839,7 +850,7 @@ function prepareTaskStr(item, noteExp)
 				'</a> | <a href="#" class="mtt-action-note-cancel">'+_mtt.lang.get('actionNoteCancel')+'</a></span></div>'+
 		'</div>'+
 		"</div></li>\n";
-};
+}
 
 
 function prepareHtml(s)
@@ -847,7 +858,7 @@ function prepareHtml(s)
 	// make URLs clickable
 	s = s.replace(/(^|\s|>)(www\.([\w\#$%&~\/.\-\+;:=,\?\[\]@]+?))(,|\.|:|)?(?=\s|&quot;|&lt;|&gt;|\"|<|>|$)/gi, '$1<a href="http://$2" target="_blank">$2</a>$4');
 	return s.replace(/(^|\s|>)((?:http|https|ftp):\/\/([\w\#$%&~\/.\-\+;:=,\?\[\]@]+?))(,|\.|:|)?(?=\s|&quot;|&lt;|&gt;|\"|<|>|$)/ig, '$1<a href="$2" target="_blank">$2</a>$4');
-};
+}
 
 function preparePrio(prio,id)
 {
@@ -856,7 +867,7 @@ function preparePrio(prio,id)
 	else if(prio > 0) { cl = 'prio-pos prio-pos-'+prio; v = '+'+prio; }
 	else { cl = 'prio-zero'; v = '&#177;0'; }													// &#177; = &plusmn; = ±
 	return '<span class="task-prio '+cl+'">'+v+'</span>';
-};
+}
 
 function prepareTagsStr(item)
 {
@@ -868,7 +879,7 @@ function prepareTagsStr(item)
 		a[i] = '<a href="#" class="tag" tag="'+a[i]+'" tagid="'+b[i]+'">'+a[i]+'</a>';
 	}
 	return '<span class="task-tags">'+a.join(', ')+'</span>';
-};
+}
 
 function prepareTagsClass(ids)
 {
@@ -879,13 +890,13 @@ function prepareTagsClass(ids)
 		a[i] = 'tag-id-'+a[i];
 	}
 	return ' '+a.join(' ');
-};
+}
 
 function prepareDuedate(item)
 {
 	if(!item.duedate) return '';
 	return '<span class="duedate" title="'+item.dueTitle+'"><span class="duedate-arrow">→</span> '+item.dueStr+'</span>';
-};
+}
 
 
 function submitNewTask(form)
@@ -906,7 +917,7 @@ function submitNewTask(form)
 	}); 
 	flag.tagsChanged = true;
 	return false;
-};
+}
 
 
 function changeTaskOrder(id)
@@ -994,7 +1005,7 @@ function changeTaskOrder(id)
 			o.append($('#taskrow_'+taskOrder[i]));
 		}
 	}
-};
+}
 
 
 function prioPopup(act, el, id)
@@ -1008,7 +1019,7 @@ function prioPopup(act, el, id)
 	objPrio.taskId = id;
 	objPrio.el = el;
 	objPrio.timer = setTimeout("$('#priopopup').show()", 300);
-};
+}
 
 function prioClick(prio, el)
 {
@@ -1016,7 +1027,7 @@ function prioClick(prio, el)
 	prio = parseInt(prio);
 	$('#priopopup').fadeOut('fast'); //.hide();
 	setTaskPrio(objPrio.taskId, prio);
-};
+}
 
 function setTaskPrio(id, prio)
 {
@@ -1026,7 +1037,7 @@ function setTaskPrio(id, prio)
 	$t.find('.task-prio').replaceWith(preparePrio(prio, id));
 	if(curList.sort != 0) changeTaskOrder(id);
 	$t.effect("highlight", {color:_mtt.theme.editTaskFlashColor}, 'normal');
-};
+}
 
 function setSort(v, init)
 {
@@ -1047,7 +1058,7 @@ function setSort(v, init)
 		changeTaskOrder();
 		if(!flag.readOnly) _mtt.db.request('setSort', {list:curList.id, sort:curList.sort});
 	}
-};
+}
 
 
 function changeTaskCnt(task, dir, old)
@@ -1068,7 +1079,7 @@ function changeTaskCnt(task, dir, old)
 		if(task.dueClass != '' && !task.compl) taskCnt[task.dueClass] += dir;
 		taskCnt.total += dir;
 	}
-};
+}
 
 function refreshTaskCnt()
 {
@@ -1078,7 +1089,7 @@ function refreshTaskCnt()
 	$('#cnt_soon').text(taskCnt.soon);
 	if(filter.due == '') $('#total').text(taskCnt.total);
 	else if(taskCnt[filter.due] != null) $('#total').text(taskCnt[filter.due]);
-};
+}
 
 
 function setTaskview(v)
@@ -1102,7 +1113,7 @@ function setTaskview(v)
 		$('#total').text(taskCnt[v]);
 		filter.due = v;
 	}
-};
+}
 
 
 function toggleAllNotes(show)
@@ -1115,7 +1126,7 @@ function toggleAllNotes(show)
 	}
 	curList.showNotes = show;
 	if(_mtt.options.saveShowNotes) _mtt.db.request('setShowNotesInList', {list:curList.id, shownotes:show}, function(json){});
-};
+}
 
 
 function tabSelect(elementOrId)
@@ -1157,7 +1168,7 @@ function tabSelect(elementOrId)
 	cancelTagFilter(0, 1);
 	setTaskview(0);
 	loadTasks({clearTasklist:1});
-};
+}
 
 
 
@@ -1165,7 +1176,7 @@ function listMenu(el)
 {
 	if(!mytinytodo.menus.listMenu) mytinytodo.menus.listMenu = new mttMenu('listmenucontainer', {onclick:listMenuClick});
 	mytinytodo.menus.listMenu.show(el);
-};
+}
 
 function listMenuClick(el, menu)
 {
@@ -1186,7 +1197,7 @@ function listMenuClick(el, menu)
 		case 'sortByDateCreated': setSort(curList.sort==3 ? 103 : 3); break;
 		case 'sortByDateModified': setSort(curList.sort==4 ? 104 : 4); break;
 	}
-};
+}
 
 function deleteTask(id)
 {
@@ -1204,7 +1215,7 @@ function deleteTask(id)
 	});
 	flag.tagsChanged = true;
 	return false;
-};
+}
 
 function completeTask(id, ch)
 {
@@ -1233,7 +1244,7 @@ function completeTask(id, ch)
 		refreshTaskCnt();
 	});
 	return false;
-};
+}
 
 function toggleTaskNote(id)
 {
@@ -1249,7 +1260,7 @@ function toggleTaskNote(id)
 		cancelTaskNote(id)
 	}
 	return false;
-};
+}
 
 function cancelTaskNote(id)
 {
@@ -1257,7 +1268,7 @@ function cancelTaskNote(id)
 	$('#tasknotearea'+id).hide();
 	$('#tasknote'+id).show();
 	return false;
-};
+}
 
 function saveTaskNote(id)
 {
@@ -1272,7 +1283,7 @@ function saveTaskNote(id)
 		cancelTaskNote(id);
 	});
 	return false;
-};
+}
 
 function editTask(id)
 {
@@ -1292,7 +1303,7 @@ function editTask(id)
 	toggleEditAllTags(0);
 	showEditForm();
 	return false;
-};
+}
 
 function clearEditForm()
 {
@@ -1304,7 +1315,7 @@ function clearEditForm()
 	form.prio.value = '0';
 	form.id.value = '';
 	toggleEditAllTags(0);
-};
+}
 
 function showEditForm(isAdd)
 {
@@ -1334,7 +1345,7 @@ function showEditForm(isAdd)
 
 	flag.editFormChanged = false;
 	_mtt.pageSet('taskedit');
-};
+}
 
 function saveTask(form)
 {
@@ -1359,7 +1370,7 @@ function saveTask(form)
 	$("#edittags").flushCache();
 	flag.tagsChanged = true;
 	return false;
-};
+}
 
 function toggleEditAllTags(show)
 {
@@ -1377,7 +1388,7 @@ function toggleEditAllTags(show)
 		$('#alltags').hide();
 		showhide($('#alltags_show'), $('#alltags_hide'))
 	}
-};
+}
 
 function fillEditAllTags()
 {
@@ -1387,7 +1398,7 @@ function fillEditAllTags()
 	}
 	$('#alltags .tags-list').html(a.join(', '));
 	$('#alltags').show();
-};
+}
 
 function addEditTag(tag)
 {
@@ -1398,7 +1409,7 @@ function addEditTag(tag)
 	}
 	var r = v.search(new RegExp('(^|,)\\s*'+tag+'\\s*(,|$)'));
 	if(r < 0) $('#edittags').val(v+', '+tag);
-};
+}
 
 function loadTags(listId, callback)
 {
@@ -1413,20 +1424,20 @@ function loadTags(listId, callback)
 		flag.tagsChanged = false;
 		callback();
 	});
-};
+}
 
 function cancelTagFilter(tagId, dontLoadTasks)
 {
 	if(tagId)  _mtt.filter.cancelTag(tagId);
 	else _mtt.filter.clear();
 	if(dontLoadTasks==null || !dontLoadTasks) loadTasks();
-};
+}
 
 function addFilterTag(tag, tagId, exclude)
 {
 	if(!_mtt.filter.addTag(tagId, tag, exclude)) return false;
 	loadTasks();
-};
+}
 
 function liveSearchToggle(toSearch, dontLoad)
 {
@@ -1447,7 +1458,7 @@ function liveSearchToggle(toSearch, dontLoad)
 		
 		$('#search').blur();
 	}
-};
+}
 
 function searchTasks(force)
 {
@@ -1459,7 +1470,7 @@ function searchTasks(force)
 	else $('#searchbar').fadeOut('fast');
 	loadTasks();
 	return false;
-};
+}
 
 
 function submitFullTask(form)
@@ -1484,14 +1495,14 @@ function submitFullTask(form)
 	$("#edittags").flushCache();
 	flag.tagsChanged = true;
 	return false;
-};
+}
 
 
 function sortStart(event,ui)
 {
 	// remember initial order before sorting
 	sortOrder = $(this).sortable('toArray');
-};
+}
 
 function orderChanged(event,ui)
 {
@@ -1532,7 +1543,7 @@ function orderChanged(event,ui)
 	}
 
 	_mtt.db.request('changeOrder', {order:o});
-};
+}
 
 
 function mttMenu(container, options)
@@ -1694,7 +1705,7 @@ function mttMenu(container, options)
 		}
 		this.$container.find('li').unbind(); //'click mouseenter mouseleave'
 	};
-};
+}
 
 
 function taskContextMenu(el, id)
@@ -1708,7 +1719,7 @@ function taskContextMenu(el, id)
 	});
 	_mtt.menus.cmenu.tag = id;
 	_mtt.menus.cmenu.show(el);
-};
+}
 
 function taskContextClick(el, menu)
 {
@@ -1729,7 +1740,7 @@ function taskContextClick(el, menu)
 			if(menu.$caller && menu.$caller.attr('id')=='cmenu_move') moveTaskToList(taskId, value);
 			break;
 	}
-};
+}
 
 
 function moveTaskToList(taskId, listId)
@@ -1761,7 +1772,7 @@ function moveTaskToList(taskId, listId)
 
 	$("#edittags").flushCache();
 	flag.tagsChanged = true;
-};
+}
 
 
 function cmenuOnListsLoaded()
@@ -1774,36 +1785,36 @@ function cmenuOnListsLoaded()
 		s += '<li id="cmenu_list:'+all[i].id+'" class="'+(all[i].hidden?'mtt-list-hidden':'')+'">'+all[i].name+'</li>';
 	}
 	$('#cmenulistscontainer ul').html(s);
-};
+}
 
 function cmenuOnListAdded(list)
 {
 	if(_mtt.menus.cmenu) _mtt.menus.cmenu.destroy();
 	_mtt.menus.cmenu = null;
 	$('#cmenulistscontainer ul').append('<li id="cmenu_list:'+list.id+'">'+list.name+'</li>');
-};
+}
 
 function cmenuOnListRenamed(list)
 {
 	$('#cmenu_list\\:'+list.id).text(list.name);
-};
+}
 
 function cmenuOnListSelected(list)
 {
 	$('#cmenulistscontainer li').removeClass('mtt-item-disabled');
 	$('#cmenu_list\\:'+list.id).addClass('mtt-item-disabled').removeClass('mtt-list-hidden');
-};
+}
 
 function cmenuOnListOrderChanged()
 {
 	cmenuOnListsLoaded();
 	$('#cmenu_list\\:'+curList.id).addClass('mtt-item-disabled');
-};
+}
 
 function cmenuOnListHidden(list)
 {
 	$('#cmenu_list\\:'+list.id).addClass('mtt-list-hidden');
-};
+}
 
 
 function tabmenuOnListSelected(list)
@@ -1818,7 +1829,7 @@ function tabmenuOnListSelected(list)
 	}
 	if(list.showCompl) $('#btnShowCompleted').addClass('mtt-item-checked');
 	else $('#btnShowCompleted').removeClass('mtt-item-checked');
-};
+}
 
 
 function listOrderChanged(event, ui)
@@ -1831,7 +1842,7 @@ function listOrderChanged(event, ui)
 	tabLists.reorder(order);
 	_mtt.db.request('changeListOrder', {order:order});
 	_mtt.doAction('listOrderChanged', {order:order});
-};
+}
 
 function showCompletedToggle()
 {
@@ -1840,7 +1851,7 @@ function showCompletedToggle()
 	if(act) $('#btnShowCompleted').addClass('mtt-item-checked');
 	else $('#btnShowCompleted').removeClass('mtt-item-checked');
 	loadTasks({setCompl:1});
-};
+}
 
 function clearCompleted()
 {
@@ -1852,7 +1863,7 @@ function clearCompleted()
 		flag.tagsChanged = true;
 		if(curList.showCompl) loadTasks();
 	});
-};
+}
 
 function tasklistClick(e)
 {
@@ -1867,14 +1878,14 @@ function tasklistClick(e)
 			else $(li).addClass('clicked');
 		}
 	}
-};
+}
 
 
 function showhide(a,b)
 {
 	a.show();
 	b.hide();
-};
+}
 
 function findParentNode(el, node)
 {
@@ -1885,26 +1896,26 @@ function findParentNode(el, node)
 		el = el.parentNode;
 		if(el.nodeName.toUpperCase() == node) return el;
 	}
-};
+}
 
 function getLiTaskId(el)
 {
 	var li = findParentNode(el, 'LI');
 	if(!li || !li.id) return 0;
 	return li.id.split('_',2)[1];
-};
+}
 
 function isParentId(el, id)
 {
 	if(el.id && $.inArray(el.id, id) != -1) return true;
 	if(!el.parentNode) return null;
 	return isParentId(el.parentNode, id);
-};
+}
 
 function dehtml(str)
 {
 	return str.replace(/&quot;/g,'"').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
-};
+}
 
 
 function slmenuOnListsLoaded()
@@ -1921,12 +1932,12 @@ function slmenuOnListsLoaded()
 	}
 	$('#slmenucontainer ul>.slmenu-lists-begin').nextAll().remove();
 	$('#slmenucontainer ul>.slmenu-lists-begin').after(s);
-};
+}
 
 function slmenuOnListRenamed(list)
 {
 	$('#slmenucontainer li.list-id-'+list.id).find('a').html(list.name);
-};
+}
 
 function slmenuOnListAdded(list)
 {
@@ -1935,19 +1946,19 @@ function slmenuOnListAdded(list)
 		_mtt.menus.selectlist = null;
 	}
 	$('#slmenucontainer ul').append('<li id="slmenu_list:'+list.id+'" class="list-id-'+list.id+'"><div class="menu-icon"></div><a href="#list/'+list.id+'">'+list.name+'</a></li>');
-};
+}
 
 function slmenuOnListSelected(list)
 {
 	$('#slmenucontainer li').removeClass('mtt-item-checked');
 	$('#slmenucontainer li.list-id-'+list.id).addClass('mtt-item-checked').removeClass('mtt-list-hidden');
 
-};
+}
 
 function slmenuOnListHidden(list)
 {
 	$('#slmenucontainer li.list-id-'+list.id).addClass('mtt-list-hidden');
-};
+}
 
 function slmenuSelect(el, menu)
 {
@@ -1962,7 +1973,7 @@ function slmenuSelect(el, menu)
 		tabSelect(parseInt(value));
 	}
 	return false;
-};
+}
 
 
 function exportCurList(format)
@@ -1970,7 +1981,7 @@ function exportCurList(format)
 	if(!curList) return;
 	if(!format.match(/^[a-z0-9-]+$/i)) return;
 	window.location.href = _mtt.mttUrl + 'export.php?list='+curList.id +'&format='+format;
-};
+}
 
 function feedCurList()
 {
