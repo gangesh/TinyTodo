@@ -13,8 +13,8 @@
 </head>
 
 <body>
-<script type="text/javascript" src="<?php mttinfo('mtt_url'); ?>js/jquery/jquery-1.4.4.min.js"></script>
-<script type="text/javascript" src="<?php mttinfo('mtt_url'); ?>js/jquery/jquery-ui-1.8.7.custom.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript" src="<?php mttinfo('mtt_url'); ?>js/jquery/jquery-ui-1.9.1.custom.min.js"></script>
 <script type="text/javascript" src="<?php mttinfo('mtt_url'); ?>js/jquery/jquery.autocomplete-1.1.js"></script>
 <script type="text/javascript" src="<?php mttinfo('mtt_url'); ?>js/mytinytodo.js?v=<?php echo Config::get('version'); ?>"></script>
 <script type="text/javascript" src="<?php mttinfo('mtt_url'); ?>js/mytinytodo_lang.php?v=<?php echo Config::get('version'); ?>"></script>
@@ -142,7 +142,13 @@ $().ready(function(){
 <div class="form-row form-row-short">
  <span class="h"><?php _e('priority');?></span>
  <select name="prio">
-  <option value="2">+2</option><option value="1">+1</option><option value="0" selected="selected">&plusmn;0</option><option value="-1">&minus;1</option>
+  <option value="4">+4</option>
+  <option value="3">+3</option>
+  <option value="2">+2</option>
+  <option value="1">+1</option>
+  <option value="0" selected="selected">&plusmn;0</option>
+  <option value="-1">&minus;1</option>
+  <option value="-2">&minus;2</option>
  </select>
 </div>
 <div class="form-row form-row-short">
@@ -179,13 +185,13 @@ $().ready(function(){
 </div>
 
 <div id="priopopup" style="display:none">
- <span class="prio-neg prio-neg-2">&minus;2</span>
- <span class="prio-neg prio-neg-1">&minus;1</span>
- <span class="prio-zero">&plusmn;0</span>
- <span class="prio-pos prio-pos-1">+1</span>
- <span class="prio-pos prio-pos-2">+2</span>
- <span class="prio-pos prio-pos-3">+3</span>
- <span class="prio-pos prio-pos-4">+4</span>
+    <span class="prio-pos prio-pos-4"> +4 </span>
+    <span class="prio-pos prio-pos-3"> +3 </span>
+    <span class="prio-pos prio-pos-2"> +2 </span>
+    <span class="prio-pos prio-pos-1"> +1 </span>
+    <span class="prio-zero"> &plusmn;0 </span>
+    <span class="prio-neg prio-neg-1"> &minus;1 </span>
+ <span class="prio-neg prio-neg-2"> &minus;2 </span>
 </div>
 
 <div id="taskviewcontainer" class="mtt-menu-container" style="display:none">

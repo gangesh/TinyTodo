@@ -554,6 +554,8 @@ function prepareTaskRow($r)
 		'dueStr' => htmlarray($r['compl'] && $dueA['timestamp'] ? formatTime($formatCompletedInline, $dueA['timestamp']) : $dueA['str']),
 		'dueInt' => date2int($r['duedate']),
 		'dueTitle' => htmlarray(sprintf($lang->get('taskdate_inline_duedate'), $dueA['formatted'])),
+        'duetime' => $r['duetime'],
+        'nest_level' => $r['nest_level'],
 	);
 }
 
