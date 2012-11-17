@@ -781,9 +781,9 @@ function v14_getOrCreateTag($name)
 function v14_addTaskTags($taskId, $tagIds, $listId)
 {
 	global $db;
-	if(!$tagIds) return;
-	foreach($tagIds as $tagId)
-	{
+	if(!$tagIds)
+		return;
+	foreach($tagIds as $tagId) {
 		$db->ex("INSERT INTO {$db->prefix}tag2task (task_id,tag_id,list_id) VALUES (?,?,?)", array($taskId,$tagId,$listId));
 	}
 }
@@ -794,8 +794,7 @@ function update_14_15($db, $dbtype)
 {
 	$db->ex("BEGIN");
 	# change in todolist table: prio is INT(3)/INTEGER
-	if($dbtype=='mysql')
-	{
+	if ($dbtype=='mysql') {
 		$db->ex("ALTER TABLE {$db->prefix}todolist CHANGE `prio` `prio` INT(3) NOT NULL default 0");
 		$db->ex(
 "CREATE TABLE {$db->prefix}v15 (
@@ -836,13 +835,37 @@ function update_14_15($db, $dbtype)
 
 function update_150_160($db, $dbtype)
 {
-    $db->ex("BEGIN");
-    # change in todolist table: prio is INT(3)/INTEGER
-    if($dbtype=='mysql')
-    {
-        $db->ex("ALTER TABLE `{$db->prefix}todolist` ADD COLUMN `duetime` TIME NULL DEFAULT NULL COMMENT 'Due to time' AFTER `duedate`;");
-        $db->ex("ALTER TABLE `{$db->prefix}todolist`  ADD COLUMN `nest_level` INT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'Task nest level' AFTER `duetime`;");
-    }
-    $db->ex("COMMIT");
+	$db->ex("BEGIN");
+	if ($dbtype=='mysql') {
+		$db->ex("ALTER TABLE `{$db->prefix}todolist` ADD COLUMN `duetime` TIME NULL DEFAULT NULL COMMENT 'Due to time' AFTER `duedate`;");
+		$db->ex("ALTER TABLE `{$db->prefix}todolist`  ADD COLUMN `nest_level` INT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'Task nest level' AFTER `duetime`;");
+	} else {
+		$db->ex(
+			"CREATE TABLE todolist_new (
+			 id INTEGER PRIMARY KEY,
+			 uuid CHAR(36) NOT NULL default '',
+			 list_id INTEGER UNSIGNED NOT NULL default 0,
+			 d_created INTEGER UNSIGNED NOT NULL default 0,
+			 d_completed INTEGER UNSIGNED NOT NULL default 0,
+			 d_edited INTEGER UNSIGNED NOT NULL default 0,
+			 compl TINYINT UNSIGNED NOT NULL default 0,
+			 title VARCHAR(250) NOT NULL,
+			 note TEXT,
+			 prio INTEGER NOT NULL default 0,
+			 ow INTEGER NOT NULL default 0,
+			 tags VARCHAR(600) NOT NULL default '',
+			 tags_ids VARCHAR(250) NOT NULL default '',
+			 duedate DATE default NULL,
+			 duetime TIME default NULL,
+			 nest_level INTEGER UNSIGNED NOT NULL default 0
+		) ");
+		$db->ex("INSERT INTO todolist_new (id,uuid,list_id,d_created,d_completed,d_edited,compl,title,note,prio,ow,tags,tags_ids,duedate)".
+				" SELECT id,uuid,list_id,d_created,d_completed,d_edited,compl,title,note,prio,ow,tags,tags_ids,duedate FROM {$db->prefix}todolist");
+		$db->ex("DROP TABLE {$db->prefix}todolist");
+		$db->ex("ALTER TABLE todolist_new RENAME TO {$db->prefix}todolist");
+		$db->ex("CREATE INDEX todo_list_id ON {$db->prefix}todolist (list_id)"); #1st index of 2
+
+	}
+	$db->ex("COMMIT");
 }
 ?>

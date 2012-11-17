@@ -555,7 +555,7 @@ function prepareTaskRow($r)
 		'dueInt' => date2int($r['duedate']),
 		'dueTitle' => htmlarray(sprintf($lang->get('taskdate_inline_duedate'), $dueA['formatted'])),
         'duetime' => (isset($r['duetime']) ? $r['duetime'] : ''),
-        'nest_level' => (isset($r['nest_level']) ? $r['nest_level'] : '')
+        'nest_level' => (isset($r['nest_level']) ? $r['nest_level'] : 0)
 	);
 }
 
