@@ -4,10 +4,10 @@
 	myTinyTodo language pack
 	Language: Dutch
 	Original name: Nederlands
-	Author: Hannes Smit
-	Author Url: http://www.hannessmit.nl
-	AppVersion: v1.3.4
-	Date: 2010-02-21
+	Author: Rik van der Heijden
+	Author Url: http://www.rikvanderheijden.nl
+	AppVersion: v1.5.0
+	Date: 2012-11-17
 */
 
 class Lang extends DefaultLang
@@ -15,8 +15,9 @@ class Lang extends DefaultLang
 	var $js = array
 	(
 		'confirmDelete' => "Weet je zeker dat je deze taak wilt verwijderen?",
+		'confirmLeave' => "Het kan zijn dat niet alle wijzigingen zijn opgeslagen, weet je zeker dat je wilt gaan?",
 		'actionNoteSave' => "opslaan",
-		'actionNoteCancel' => "annuleer",
+		'actionNoteCancel' => "annuleren",
 		'error' => "Er deed zich een fout voor (klik voor meer informatie)",
 		'denied' => "Toegang geweigerd",
 		'invalidpass' => "Verkeerde wachwoord",
@@ -25,12 +26,11 @@ class Lang extends DefaultLang
 		'renameList' => "Hernoem lijst",
 		'deleteList' => "Hiermee verwijder je de huidige lijst met alle taken daarbinnen.\\nWeet je het zeker?",
 		'clearCompleted' => "Hiermee verwijder je alle voltooide taken in de lijst.\\nWeet je het zeker?",
-		'settingsSaved' => "Instellingen opgeslagen. Reload...",
+		'settingsSaved' => "Instellingen opgeslagen. Ververs de pagina...",
 	);
 
 	var $inc = array
 	(
-		'My Tiny Todolist' => "Mijn Tiny Todolijst",
 		'htab_newtask' => "Nieuwe taak",
 		'htab_search' => "Zoek",
 		'btn_add' => "Toevoegen",
@@ -38,14 +38,18 @@ class Lang extends DefaultLang
 		'advanced_add' => "Geavanceerd",
 		'searching' => "Zoeken naar",
 		'tasks' => "Taken",
-		'taskdate_inline' => "toegevoegd op %s",
+		'taskdate_inline_created' => "Gemaakt op %s",
+		'taskdate_inline_completed' => "Voltooid op %s",
+		'taskdate_inline_duedate' => "Voor %s",
 		'taskdate_created' => "Aanmaakdatum",
 		'taskdate_completed' => "Voltooïngsdatum",
+		'go_back' => "&lt;&lt; Terug",
 		'edit_task' => "Bewerk Taak",
 		'add_task' => "Niewe Taak",
 		'priority' => "Prioriteit",
 		'task' => "Taak",
 		'note' => "Notities",
+		'tags' => "Tags",
 		'save' => "Bewaar",
 		'cancel' => "Annuleer",
 		'password' => "Wachtwoord",
@@ -53,11 +57,13 @@ class Lang extends DefaultLang
 		'a_login' => "Login",
 		'a_logout' => "Uitloggen",
 		'public_tasks' => "Publieke taken",
-		'tags' => "Tags",
+		'tagcloud' => "Tags",
 		'tagfilter_cancel' => "annuleer filter",
 		'sortByHand' => "Sorteer handmatig",
 		'sortByPriority' => "Sorteer op prioriteit",
 		'sortByDueDate' => "Sorteer op uiterste datum",
+                'sortByDateCreated' => "Sorteer op aanmaak datum",
+                'sortByDateModified' => "Sorteer op wijzigings datum",
 		'due' => "Uiterlijk",
 		'daysago' => "%d dagen geleden",
 		'indays' => "over %d dagen",
@@ -85,13 +91,21 @@ class Lang extends DefaultLang
 		'list_publish' => "Publiceer lijst",
 		'list_showcompleted' => "Toon voltooide taken",
 		'list_clearcompleted' => "Verwijder voltooide taken",
+                'list_select' => "Kies lijst",
+                'list_export' => "Exporteer",
+                'list_export_csv' => "CSV",
+                'list_export_ical' => "iCalendar",
+                'list_rssfeed' => "RSS Feed",
 		'alltags' => "Alle tags:",
 		'alltags_show' => "Toon alle",
 		'alltags_hide' => "Verberg alle",
 		'a_settings' => "Instellingen",
 		'rss_feed' => "RSS Feed",
 		'feed_title' => "%s",
-		'feed_description' => "Nieuwe taken in %s",
+                'feed_completed_tasks' => "Voltooide taken",
+                'feed_modified_tasks' => "Gewijzigde taken",
+                'feed_new_tasks' => "Nieuwe taken",
+                'alltasks' => "Alle taken",
 
 		/* Settings */
 		'set_header' => "Instellingen",
@@ -105,17 +119,17 @@ class Lang extends DefaultLang
 		'set_newpass_descr' => "(laat leeg als er geen wachtwoord wijzigingen zijn)",
 		'set_smartsyntax' => "Slimme syntax",
 		'set_smartsyntax_descr' => "(/prioriteit/taak/tags/)",
-		'set_autotz' => "Automatische tijdzone",
-		'set_autotz_descr' => "(bepaald tijdzone van gebruiker met javascript)",
+		'set_timezone' => "Tijdzone",
 		'set_autotag' => "Autotagging",
 		'set_autotag_descr' => "(voegt automatisch de tag van het huidige filter toe aan de nieuwe taak)",
 		'set_sessions' => "Sessie beheer",
 		'set_sessions_php' => "PHP",
 		'set_sessions_files' => "Files",
 		'set_firstdayofweek' => "Eerste dag van de week",
-		'set_duedate' => "Uiterste datum kalender formaat",
+		'set_custom' => "Geavanceerd",
 		'set_date' => "Datum formaat",
-		'set_shortdate' => "Verkort Datum formaat",
+		'set_date2' => "Kort datum formaat",
+		'set_shortdate' => "Verkort Datum formaat (dit jaar)",
 		'set_clock' => "Tijd formaat",
 		'set_12hour' => "12-uur",
 		'set_24hour' => "24-uur",
@@ -124,5 +138,3 @@ class Lang extends DefaultLang
 		'set_showdate' => "Toon taak datum in lijst",
 	);
 }
-
-?>
