@@ -9,11 +9,11 @@ System requirements
 * PHP 5.2.0 or greater;
 * PHP extensions: php_mysql (MySQL version), php_pdo and php_pdo_sqlite (SQLite version).
 Tested browsers:
-* Internet Explorer 8
-* Firefox v3.6, v4
-* Chrome v8
-* Opera v10.60, v11
-* Safari v5
+* Internet Explorer 8+
+* Firefox v4+
+* Chrome v8+
+* Opera v10.60, v11+
+* Safari v5+
 
 How to install myTinyTodo
 -------------------------

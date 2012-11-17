@@ -14,8 +14,8 @@
 
 <body>
 
-<script type="text/javascript" src="<?php mttinfo('mtt_url'); ?>js/jquery/jquery-1.4.4.min.js"></script>
-<script type="text/javascript" src="<?php mttinfo('mtt_url'); ?>js/jquery/jquery-ui-1.8.7.custom.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript" src="<?php mttinfo('mtt_url'); ?>js/jquery/jquery-ui-1.9.1.custom.min.js"></script>
 <script type="text/javascript" src="<?php mttinfo('mtt_url'); ?>js/jquery/jquery.autocomplete-1.1.js"></script>
 <script type="text/javascript" src="<?php mttinfo('mtt_url'); ?>js/mytinytodo.js?v=<?php echo Config::get('version'); ?>"></script>
 <script type="text/javascript" src="<?php mttinfo('mtt_url'); ?>js/mytinytodo_lang.php?v=<?php echo Config::get('version'); ?>"></script>
