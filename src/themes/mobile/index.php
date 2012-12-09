@@ -213,7 +213,7 @@ $().ready(function(){
  <li class="mtt-need-list mtt-need-real-list" id="btnRenameList"><?php _e('list_rename');?></li>
  <li class="mtt-need-list mtt-need-real-list" id="btnDeleteList"><?php _e('list_delete');?></li>
  <li class="mtt-need-list mtt-need-real-list" id="btnClearCompleted"><?php _e('list_clearcompleted');?></li>
- <li class="mtt-need-list mtt-need-real-list mtt-menu-indicator" submenu="listexportmenucontainer"><div class="submenu-icon"></div><?php _e('list_export'); ?></li>
+ <li class="mtt-need-list mtt-need-real-list mtt-menu-indicator" data-submenu="listexportmenucontainer"><div class="submenu-icon"></div><?php _e('list_export'); ?></li>
  <li class="mtt-menu-delimiter mtt-need-real-list"></li>
  <li class="mtt-need-list mtt-need-real-list" id="btnPublish"><div class="menu-icon"></div><?php _e('list_publish');?></li>
  <li class="mtt-need-list mtt-need-real-list" id="btnRssFeed"><div class="menu-icon"></div><?php _e('list_rssfeed');?></li>
@@ -239,8 +239,8 @@ $().ready(function(){
 <ul>
  <li id="cmenu_edit"><b><?php _e('action_edit');?></b></li>
  <li id="cmenu_note"><?php _e('action_note');?></li>
- <li id="cmenu_prio" class="mtt-menu-indicator" submenu="cmenupriocontainer"><div class="submenu-icon"></div><?php _e('action_priority');?></li>
- <li id="cmenu_move" class="mtt-menu-indicator" submenu="cmenulistscontainer"><div class="submenu-icon"></div><?php _e('action_move');?></li>
+ <li id="cmenu_prio" class="mtt-menu-indicator" data-submenu="cmenupriocontainer"><div class="submenu-icon"></div><?php _e('action_priority');?></li>
+ <li id="cmenu_move" class="mtt-menu-indicator" data-submenu="cmenulistscontainer"><div class="submenu-icon"></div><?php _e('action_move');?></li>
  <li id="cmenu_delete"><?php _e('action_delete');?></li>
 </ul>
 </div>
