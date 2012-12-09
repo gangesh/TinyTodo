@@ -1574,7 +1574,7 @@ function mttMenu(container, options)
 		var submenu = 0;
 		if($(this).is('.mtt-menu-indicator'))
 		{
-			submenu = new mttMenu($(this).attr('submenu'));
+			submenu = new mttMenu($(this).attr('data-submenu'));
 			submenu.$caller = $(this);
 			submenu.parent = menu;
 			if(menu.root) submenu.root = menu.root;	//!! be careful with circular references
