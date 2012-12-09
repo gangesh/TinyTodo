@@ -6,8 +6,10 @@
 	Original name: Norsk
 	Author: Simen Aas Henriksen
 	Author Url: http://www.sweb.no
-	AppVersion: v1.3.4
-	Date: 2010-10-30
+	Author2: Rune Mathisen
+	Author2 Url: http://runemathisen.com
+	AppVersion: v1.5.0
+	Date: 2012-12-08
 */
 
 class Lang extends DefaultLang
@@ -15,6 +17,7 @@ class Lang extends DefaultLang
 	var $js = array
 	(
 		'confirmDelete' => "Er du sikker på at du vil slette denne oppgaven?",
+		'confirmLeave' => "Det kan være ulagrede data, vil du virkelig forlate siden?",
 		'actionNoteSave' => "lagre",
 		'actionNoteCancel' => "avbryt",
 		'error' => "En feil har oppstått (klikk for detaljer)",
@@ -30,7 +33,6 @@ class Lang extends DefaultLang
 
 	var $inc = array
 	(
-		'My Tiny Todolist' => "Min lille ToDo liste",
 		'htab_newtask' => "Ny oppgave",
 		'htab_search' => "Søk",
 		'btn_add' => "Legg til",
@@ -38,14 +40,18 @@ class Lang extends DefaultLang
 		'advanced_add' => "Avansert",
 		'searching' => "Søker etter",
 		'tasks' => "Oppgaver",
-		'taskdate_inline' => "lagt til %s",
+		'taskdate_inline_created' => "lagt til %s",
+		'taskdate_inline_completed' => "Fullført den %s",
+		'taskdate_inline_duedate' => "Forfaller %s",
 		'taskdate_created' => "Opprettelsesdato",
 		'taskdate_completed' => "Dato ferdig",
+		'go_back' => "&lt;&lt; Tilbake",
 		'edit_task' => "Rediger oppgave",
 		'add_task' => "Ny oppgave",
 		'priority' => "Prioritet",
 		'task' => "Oppgave",
 		'note' => "Notat",
+		'tags' => "Merkelapper",
 		'save' => "Lagre",
 		'cancel' => "Avbryt",
 		'password' => "Passord",
@@ -53,12 +59,14 @@ class Lang extends DefaultLang
 		'a_login' => "Logg inn",
 		'a_logout' => "Logg ut",
 		'public_tasks' => "Offentlige oppgaver",
-		'tags' => "Tags",
+		'tagcloud' => "Merkelapper",
 		'tagfilter_cancel' => "avbryt filter",
 		'sortByHand' => "Sorter manuelt",
 		'sortByPriority' => "Sorter etter prioritering",
 		'sortByDueDate' => "Sorter etter dato",
-		'due' => "forventes ferdig",
+		'sortByDateCreated' => "Sorter etter opprettelsesdato",
+		'sortByDateModified' => "Sorter etter modifiseringsdato",
+		'due' => "Forfallsdato",
 		'daysago' => "%d dager siden",
 		'indays' => "om %d dager",
 		'months_short' => array("Jan","Feb","Mar","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Des"),
@@ -78,20 +86,28 @@ class Lang extends DefaultLang
 		'action_move' => "Flytt til",
 		'notes' => "Notater:",
 		'notes_show' => "Vis",
-		'notes_hide' => "Gjem",
+		'notes_hide' => "Skjul",
 		'list_new' => "Ny liste",
 		'list_rename' => "Bytt navn på liste",
 		'list_delete' => "Slett liste",
 		'list_publish' => "Offentliggjør list",
 		'list_showcompleted' => "Vis ferdigstilte oppgaver",
 		'list_clearcompleted' => "Slett ferdigstilte oppgaver",
-		'alltags' => "Alle tags:",
+		'list_select' => "Velg liste",
+		'list_export' => "Eksporter",
+		'list_export_csv' => "CSV",
+		'list_export_ical' => "iCalendar",
+		'list_rssfeed' => "RSS Feed",
+		'alltags' => "Alle merkelapper:",
 		'alltags_show' => "Vise alle",
-		'alltags_hide' => "Gjem alle",
+		'alltags_hide' => "Skjul alle",
 		'a_settings' => "Innstillinger",
 		'rss_feed' => "RSS Feed",
 		'feed_title' => "%s",
+		'feed_completed_tasks' => "Ferdigstilte oppgaver",
+		'feed_modified_tasks' => "Endrede oppgaver",
 		'feed_description' => "Nye oppgaver i %s",
+		'alltasks' => "Alle oppgaver",
 
 		/* Settings */
 		'set_header' => "Innstillinger",
@@ -105,17 +121,17 @@ class Lang extends DefaultLang
 		'set_newpass_descr' => "(la stå om du ikke vil endre passord)",
 		'set_smartsyntax' => "Smart syntax",
 		'set_smartsyntax_descr' => "(/prioritet/oppgaver/tags/)",
-		'set_autotz' => "Automatisk tidssone",
-		'set_autotz_descr' => "(bestemmer tidssonen)",
+		'set_timezone' => "Tidssone",
 		'set_autotag' => "Autotagging",
 		'set_autotag_descr' => "(Legger automatisk til tags fra nåværende tag filter på nyopprettede oppgaver)",
 		'set_sessions' => "Session handling mechanism",
 		'set_sessions_php' => "PHP",
 		'set_sessions_files' => "Filer",
 		'set_firstdayofweek' => "Første dagen i uken",
-		'set_duedate' => "Forfallsdato kalenderen format",
-		'set_date' => "Dato format",
-		'set_shortdate' => "'Kort' Dato format",
+		'set_custom' => "Tilpasset",
+		'set_date' => "Datoformat",
+		'set_date2' => "Kort datoformat",
+		'set_shortdate' => "Kort dato (inneværende år)",
 		'set_clock' => "Klokkeformat",
 		'set_12hour' => "12-timer",
 		'set_24hour' => "24-timer",
