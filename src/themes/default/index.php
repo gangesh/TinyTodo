@@ -4,36 +4,52 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?php mttinfo('title'); ?></title>
-<link rel="stylesheet" type="text/css" href="<?php mttinfo('template_url'); ?>style.css?v=<?php echo Config::get('version'); ?>" media="all" />
+<link rel="stylesheet" type="text/css" href="<?php mttinfo('template_url'); ?>style.css?v=1.4.2" media="all" />
 <?php if(Config::get('rtl')): ?>
-<link rel="stylesheet" type="text/css" href="<?php mttinfo('template_url'); ?>style_rtl.css?=<?php echo Config::get('version'); ?>" media="all" />
+<link rel="stylesheet" type="text/css" href="<?php mttinfo('template_url'); ?>style_rtl.css?v=1.4.2" media="all" />
 <?php endif; ?>
-<link rel="stylesheet" type="text/css" href="<?php mttinfo('template_url'); ?>print.css?v=<?php echo Config::get('version'); ?>" media="print" />
-<link href="<?php mttinfo('template_url'); ?>/images/logo32x32.png" rel="shortcut icon apple-touch-icon" />
+<?php if(isset($_GET['pda'])): ?>
+<meta name="viewport" id="viewport" content="width=device-width" />
+<link rel="stylesheet" type="text/css" href="<?php mttinfo('template_url'); ?>pda.css?v=1.4.2" media="all" />
+<?php else: ?>
+<link rel="stylesheet" type="text/css" href="<?php mttinfo('template_url'); ?>print.css?v=1.4.2" media="print" />
+<?php endif; ?>
 </head>
 
 <body>
-<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script type="text/javascript" src="<?php mttinfo('mtt_url'); ?>js/jquery/jquery-ui-1.9.1.custom.min.js"></script>
-<script type="text/javascript" src="<?php mttinfo('mtt_url'); ?>js/jquery/jquery.autocomplete-1.1.js"></script>
-<script type="text/javascript" src="<?php mttinfo('mtt_url'); ?>js/mytinytodo.js?v=<?php echo Config::get('version'); ?>"></script>
-<script type="text/javascript" src="<?php mttinfo('mtt_url'); ?>js/mytinytodo_lang.php?v=<?php echo Config::get('version'); ?>"></script>
-<script type="text/javascript" src="<?php mttinfo('mtt_url'); ?>js/mytinytodo_ajax_storage.js?v=<?php echo Config::get('version'); ?>"></script>
+
+<script type="text/javascript" src="<?php mttinfo('mtt_url'); ?>jquery/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="<?php mttinfo('mtt_url'); ?>jquery/jquery-ui-1.8.7.custom.min.js"></script>
+<script type="text/javascript" src="<?php mttinfo('mtt_url'); ?>jquery/jquery.autocomplete-1.1.js"></script>
+<script type="text/javascript" src="<?php mttinfo('mtt_url'); ?>mytinytodo.js?v=1.4.2"></script>
+<script type="text/javascript" src="<?php mttinfo('mtt_url'); ?>mytinytodo_lang.php?v=1.4.2"></script>
+<script type="text/javascript" src="<?php mttinfo('mtt_url'); ?>mytinytodo_ajax_storage.js?v=1.4.2"></script>
 
 <script type="text/javascript">
 $().ready(function(){
+
+	<?php if(isset($_GET['pda'])): ?>
+
+	$('body').width(screen.width);
+	$(window).resize(function() {
+		$('body').width(screen.width);
+	});
+		
+	<?php endif; ?>
+
 	mytinytodo.mttUrl = "<?php mttinfo('mtt_url'); ?>";
 	mytinytodo.templateUrl = "<?php mttinfo('template_url'); ?>";
 	mytinytodo.db = new mytinytodoStorageAjax(mytinytodo);
 	mytinytodo.init({
 		needAuth: <?php echo $needAuth ? "true" : "false"; ?>,
 		isLogged: <?php echo ($needAuth && is_logged()) ? "true" : "false"; ?>,
-		showdate: <?php echo (Config::get('showdate')) ? "true" : "false"; ?>,
-		singletab: <?php echo (isset($_GET['singletab'])) ? "true" : "false"; ?>,
+		showdate: <?php echo (Config::get('showdate') && !isset($_GET['pda'])) ? "true" : "false"; ?>,
+		singletab: <?php echo (isset($_GET['singletab']) || isset($_GET['pda'])) ? "true" : "false"; ?>,
 		duedatepickerformat: "<?php echo htmlspecialchars(Config::get('dateformat2')); ?>",
 		firstdayofweek: <?php echo (int) Config::get('firstdayofweek'); ?>,
 		autotag: <?php echo Config::get('autotag') ? "true" : "false"; ?>
 		<?php if(isset($_GET['list'])) echo ",openList: ". (int)$_GET['list']; ?>
+		<?php if(isset($_GET['pda'])) echo ", touchDevice: true"; ?>
 	}).loadLists(1);
 });
 </script>
@@ -49,6 +65,10 @@ $().ready(function(){
 <div id="bar">
  <div id="msg"><span class="msg-text"></span><div class="msg-details"></div></div>
  <div class="bar-menu">
+ <span class="menu-owner" style="display:none">
+   <a href="#users" id="users">Users</a>
+ </span>
+ <span class="bar-delim" style=""> | </span>
  <span class="menu-owner" style="display:none">
    <a href="#settings" id="settings"><?php _e('a_settings');?></a>
  </span>
@@ -142,13 +162,7 @@ $().ready(function(){
 <div class="form-row form-row-short">
  <span class="h"><?php _e('priority');?></span>
  <select name="prio">
-  <option value="4">+4</option>
-  <option value="3">+3</option>
-  <option value="2">+2</option>
-  <option value="1">+1</option>
-  <option value="0" selected="selected">&plusmn;0</option>
-  <option value="-1">&minus;1</option>
-  <option value="-2">&minus;2</option>
+  <option value="2">+2</option><option value="1">+1</option><option value="0" selected="selected">&plusmn;0</option><option value="-1">&minus;1</option>
  </select>
 </div>
 <div class="form-row form-row-short">
@@ -173,6 +187,62 @@ $().ready(function(){
 </div>
 </form>
 
+Comments
+
+<?php  include "comment/connect.php"; include "comment/customeFuctions.php"; $limitComment = 1060; ?>
+
+<link href="comment/style/style.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" src="comment/jQuery/jQuery.js"></script>
+
+
+		<div id="wrapper">
+		<div id="comments">
+		</div>
+		<div id="commentForm">
+		<form>
+		<table border="0">
+		 
+		  <tr>
+			<td>Name</td>
+			<td><input type="text" id="name" value="" size="27" maxlength="35" /></td>
+		  </tr>
+		  <tr>
+			<td>Email</td>
+			<td><input type="text" id="email" value="" size="27" maxlength="70" /></td>
+		  </tr>
+		  <tr>
+			<td>Comment</td>
+			<td><textarea id="comment"></textarea>
+			<input type="hidden" name="uuid_comment" id="taskid_comment" value="">
+			<div id="commentMaxChar">Number of characters left: 500</div></td>
+		  </tr>
+		  <tr>
+		   <tr>
+			<td>Send copy to email</td>
+			<td><input type="checkbox" id="sendCopyToEmail" value="" /></td>
+		  </tr>
+		  <tr>
+			<td>&nbsp;</td>
+			<td><input name="button" type="button" id="saveComment" value="Post" /><img id="working" class="hide" src="img/ajax-loader.gif" alt="working.." /></td>
+		  </tr>
+		</table>
+		<div id="error"></div>
+		</form>
+		</div>
+		</div>
+<script type="text/javascript">
+
+jQuery(function($){
+
+//var window.pas_tid =  document.getElementById('taskid_comment').value;
+//alert($("task_comment").val());
+//$("#comments").delay(800).load("comment_list.php", {taskid:1});
+
+})
+</script>
+
+
 </div>  <!-- end of page_taskedit -->
 
 
@@ -185,13 +255,10 @@ $().ready(function(){
 </div>
 
 <div id="priopopup" style="display:none">
-    <span class="prio-pos prio-pos-4"> +4 </span>
-    <span class="prio-pos prio-pos-3"> +3 </span>
-    <span class="prio-pos prio-pos-2"> +2 </span>
-    <span class="prio-pos prio-pos-1"> +1 </span>
-    <span class="prio-zero"> &plusmn;0 </span>
-    <span class="prio-neg prio-neg-1"> &minus;1 </span>
- <span class="prio-neg prio-neg-2"> &minus;2 </span>
+ <span class="prio-neg prio-neg-1">&minus;1</span>
+ <span class="prio-zero">&plusmn;0</span>
+ <span class="prio-pos prio-pos-1">+1</span>
+ <span class="prio-pos prio-pos-2">+2</span>
 </div>
 
 <div id="taskviewcontainer" class="mtt-menu-container" style="display:none">
@@ -215,7 +282,7 @@ $().ready(function(){
  <li class="mtt-need-list mtt-need-real-list" id="btnRenameList"><?php _e('list_rename');?></li>
  <li class="mtt-need-list mtt-need-real-list" id="btnDeleteList"><?php _e('list_delete');?></li>
  <li class="mtt-need-list mtt-need-real-list" id="btnClearCompleted"><?php _e('list_clearcompleted');?></li>
- <li class="mtt-need-list mtt-need-real-list mtt-menu-indicator" data-submenu="listexportmenucontainer"><div class="submenu-icon"></div><?php _e('list_export'); ?></li>
+ <li class="mtt-need-list mtt-need-real-list mtt-menu-indicator" submenu="listexportmenucontainer"><div class="submenu-icon"></div><?php _e('list_export'); ?></li>
  <li class="mtt-menu-delimiter mtt-need-real-list"></li>
  <li class="mtt-need-list mtt-need-real-list" id="btnPublish"><div class="menu-icon"></div><?php _e('list_publish');?></li>
  <li class="mtt-need-list mtt-need-real-list" id="btnRssFeed"><div class="menu-icon"></div><?php _e('list_rssfeed');?></li>
@@ -241,8 +308,8 @@ $().ready(function(){
 <ul>
  <li id="cmenu_edit"><b><?php _e('action_edit');?></b></li>
  <li id="cmenu_note"><?php _e('action_note');?></li>
- <li id="cmenu_prio" class="mtt-menu-indicator" data-submenu="cmenupriocontainer"><div class="submenu-icon"></div><?php _e('action_priority');?></li>
- <li id="cmenu_move" class="mtt-menu-indicator" data-submenu="cmenulistscontainer"><div class="submenu-icon"></div><?php _e('action_move');?></li>
+ <li id="cmenu_prio" class="mtt-menu-indicator" submenu="cmenupriocontainer"><div class="submenu-icon"></div><?php _e('action_priority');?></li>
+ <li id="cmenu_move" class="mtt-menu-indicator" submenu="cmenulistscontainer"><div class="submenu-icon"></div><?php _e('action_move');?></li>
  <li id="cmenu_delete"><?php _e('action_delete');?></li>
 </ul>
 </div>
@@ -268,14 +335,15 @@ $().ready(function(){
 </ul>
 </div>
 
-<div id="page_ajax" style="display:none"></div>
+<div id="page_users" style="display:none"></div>
+<div id="page_settings" style="display:none"></div>
 
 </div>
 <div id="space"></div>
 </div>
 
-<div id="footer"><div id="footer_content">Powered by <strong><a href="http://www.mytinytodo.net/">myTinyTodo</a></strong> <?php echo Config::get('version'); ?> </div></div>
+<div id="footer"><div id="footer_content">Powered by <strong><a href="http://www.tinytodo.net/">TinyTodo</a></strong> 1.4.2 </div></div>
 
 </div>
 </body>
-</html>
+</html><!-- r387 -->

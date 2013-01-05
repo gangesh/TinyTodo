@@ -1,25 +1,31 @@
+/*
+	This file is a part of myTinyTodo. 
+	Copyright 2009-2010 Max Pozdeev <maxpozdeev@gmail.com>
+*/
+
 /*	default style	*/
+
 html { height:100%; overflow-y:scroll; }
-body { margin:0px; padding:0px;  height:100%; min-height:100%; background-color:#fff; font-family:arial; font-size:10pt; background-image: url("images/bg.png"); }
+body { margin:0px; padding:0px;  height:100%; min-height:100%; background-color:#fff; font-family:arial; font-size:10pt; }
 #wrapper { margin:0px auto; max-width:950px;  height:100%; }
 #container { height:auto !important;height:100%;min-height:100%;    }
 #mtt_body { padding:8px; padding-bottom:16px; }
 
-
+.hide_this {display:none !important}
 td, th, input, textarea, select { font-family:arial; font-size:1em; }
 form { display: inline; }
 h2,h3 { margin:0; }
-h2 { font-size:1.5em; float:left; padding-right:10px; }
-h3 { border-bottom:2px solid #8e8e8e; margin-bottom:10px; padding:6px 0; font-size:1.1em; }
+h2 { font-size:1.5em; float:left; padding-right:10px; background-color:#ffffff; }
+h3 { border-bottom:2px solid #B5D5FF; margin-bottom:10px; padding:6px 0; font-size:1.1em; }
 #page_tasks h3 { padding-left:4px; padding-right:4px; }
 a { color:#0000ff; cursor:pointer; text-decoration:underline; }
 
 #space { height:30px; }
 #footer { height:30px; margin-top:-30px; }
-#footer_content { background-color:#8e8e8e; padding:5px; font-size:0.8em; }
+#footer_content { background-color:#b5d5ff; padding:5px; font-size:0.8em; }
 #footer_content a { color:#000000; }
 
-#bar { border-bottom:1px solid #8e8e8e; padding-bottom:5px; height:15px; }
+#bar { border-bottom:1px solid #b5d5ff; padding-bottom:5px; height:15px; }
 .bar-menu { float:right; }
 .nodecor { text-decoration:none; }
 #bar_logout { display:none; }
@@ -38,38 +44,23 @@ a { color:#0000ff; cursor:pointer; text-decoration:underline; }
 #msg.mtt-info .msg-details { border:1px solid #EFC300;}
 
 .mtt-tabs { list-style:none; padding:0; margin:0; }
-.mtt-tabs li {
-	margin:1px 4px 0 0; float:left; border-left:1px solid #ededed; background:#fdfdfd;
-	padding-left: 2px;
-	padding-right: 2px;
-	border-radius: 8px 8px 0 0;
-	-webkit-border-radius:8px 8px 0 0;
-	-khtml-border-radius:8px 8px 0 0;
-	-moz-border-radius:8px 8px 0 0;
-}
+.mtt-tabs li { margin:1px 3px 0 0; float:left; border-left:1px solid #ededed; background:#fbfbfb url(images/tab_hover.gif) no-repeat top right; }
 .mtt-tab a { position:relative; margin:0; font-size:0.9em; font-weight:bold; text-decoration:none; text-align:center; white-space:nowrap; color:#444444; display:block; height:21px; padding:6px 6px 0px 2px; outline:none; vertical-align:top; }
 .mtt-tab a span { display:inline-block; min-width:75px; max-width:195px; cursor:pointer; padding:0; overflow:hidden; }
 .mtt-tab .list-action { display:none; float:left; position:absolute; top:6px; right:5px; width:15px; height:15px; background:transparent url(images/icons.gif) 0 0 no-repeat; cursor:pointer; }
 .mtt-tab .list-action:hover, .mtt-tab .list-action.mtt-menu-button-active { background-position:-16px 0; } 
 .mtt-tab.mtt-tabs-selected span { margin-right:16px; }
 .mtt-tab.mtt-tabs-selected .list-action { display:block; }
-.mtt-tab.mtt-tabs-selected, .mtt-tabs-alltasks {
-	background:#cccccc;
-	border-radius: 8px 8px 0 0;
-	-webkit-border-radius:8px 8px 0 0;
-	-khtml-border-radius:8px 8px 0 0;
-	-moz-border-radius:8px 8px 0 0;
-	border-left:1px solid #ededed;
-}
+.mtt-tab.mtt-tabs-selected { background:#ededed url(images/corner_right.gif) no-repeat top right; border-left:1px solid #ededed; }
 .mtt-tabs li:hover a { color: #888888; }
 .mtt-tabs.mtt-tabs-only-one li { display:none; }
 .mtt-tabs.mtt-tabs-only-one li.mtt-tabs-selected { display:block; }
 #mtt_body.readonly li.mtt-tabs-selected span { margin-right:0; }
 .mtt-tabs-hidden { display:none; }
                      
-.mtt-tabs-alltasks { float: right; border-right:1px solid #ededed; }
+.mtt-tabs-alltasks { margin:1px 3px 0 3px; float:right; border-right:1px solid #ededed; background:#fbfbfb url(images/tab_hover.gif) no-repeat top left; }
 .mtt-tabs-alltasks.mtt-tab a { padding:6px 2px 0px 6px; }
-.mtt-tabs-alltasks.mtt-tab.mtt-tabs-selected { border-left:none; border-right:1px solid #ededed; }
+.mtt-tabs-alltasks.mtt-tab.mtt-tabs-selected { border-left:none; border-right:1px solid #ededed; background:#ededed url(images/corner_left.gif) no-repeat top left; }
 
 
 #tabs_buttons {
@@ -101,12 +92,7 @@ a { color:#0000ff; cursor:pointer; text-decoration:underline; }
  border:1px solid #ccc; -moz-border-radius:3px; -webkit-border-radius:3px; border-radius:3px;
 }
 
-.mtt-tabs-add-button { float:left; margin-top:1px; padding:6px 2px 0px 2px; font-size:0.9em; height:21px; border-left:1px solid #ededed; background:#fbfbfb;
-	border-radius: 8px 8px 0 0;
-	-webkit-border-radius:8px 8px 0 0;
-	-khtml-border-radius:8px 8px 0 0;
-	-moz-border-radius:8px 8px 0 0;
-}
+.mtt-tabs-add-button { float:left; margin-top:1px; padding:6px 2px 0px 2px; font-size:0.9em; height:21px; border-left:1px solid #ededed; background:#fbfbfb url(images/tab_hover.gif) no-repeat top right; }
 .mtt-tabs-add-button:hover { cursor:pointer; }
 .mtt-tabs-add-button>span { display:block; width:16px; height:16px; background:url(images/buttons.png) 0 0 no-repeat; }
 .mtt-tabs-add-button:hover>span { background-position:-16px 0; }
@@ -117,7 +103,7 @@ a { color:#0000ff; cursor:pointer; text-decoration:underline; }
 
 
 #mtt_body.no-lists #toolbar > * { visibility:hidden; }
-.mtt-htabs  { clear:both; padding:8px; border-bottom:2px solid #8E8E8E; background:#cccccc; }
+.mtt-htabs  { clear:both; padding:8px; border-bottom:2px solid #DEDEDE; background:#ededed; }
 
 .mtt-img-button { width:16px; height:16px; padding:2px; border:1px solid transparent; display:inline-block; }
 .mtt-img-button:hover { border:1px solid #ccc; -moz-border-radius:3px; -webkit-border-radius:3px; border-radius:3px; }
@@ -141,6 +127,7 @@ a { color:#0000ff; cursor:pointer; text-decoration:underline; }
 #newtask_adv span { background:url(images/buttons.png) 0 -48px no-repeat; }
 #newtask_adv:hover span { background-position:-16px -48px; }
 #mtt_body.show-all-tasks #htab_newtask, #mtt_body.readonly #htab_newtask { display:none; }
+
 
 /* Live Search */
 #htab_search { float:right; }
@@ -174,13 +161,11 @@ a { color:#0000ff; cursor:pointer; text-decoration:underline; }
 
 .task-left { float:left; }
 .task-toggle { visibility:hidden; margin-top:2px; cursor:pointer; width:15px; height:15px; float:left; background:url(images/icons.gif) -64px -16px no-repeat; }
-div.show-children {float:left; cursor:pointer; visibility: hidden; width: 8px;}
 li.task-has-note .task-toggle { visibility:visible; }
 li.task-expanded .task-toggle { background-position:-80px -16px; }
 .task-middle { margin-left:40px; margin-right:20px; }
 #tasklist { list-style-type: none; margin: 0; padding: 0;}
 #tasklist li { padding:6px 2px 6px 6px; border-bottom:1px solid #DEDEDE; min-height:18px; margin-bottom:1px; background-color:#fff; }
-#tasklist li.nest-level-1 { padding-left: 26px; }
 #tasklist li:hover { background-color:#f6f6f6; }
 .task-actions { float:right; width:20px; text-align:right; }
 .task-date { color:#999999; font-size:0.8em; margin-left:4px; display:none; }
@@ -235,13 +220,11 @@ li.task-completed .task-note-block .task-note { text-decoration:line-through; }
 .task-note span a:hover { color:#af0000; }
 
 .task-prio { padding-left:2px; padding-right:2px; margin-left:0px; margin-right:5px; cursor:default; }
-.prio-neg   { background-color:#3377ff; color:#ffffff; }
-.prio-neg-1 { background-color:#337777; color:#ffffff; }
-.prio-pos   { background-color:#ff3333; color:#ffffff; }
-.prio-pos-1 { background-color:#dddd33; color:#ffffff; }
-.prio-pos-2 { background-color:#dd9933; color:#ffffff; }
-.prio-pos-3 { background-color:#dd3333; color:#ffffff; }
-.prio-zero  { background-color:#338833; color:#ffffff; }
+.prio-neg { background-color:#3377ff; color:#ffffff; }
+.prio-pos { background-color:#ff3333; color:#ffffff; }
+.prio-pos-1 { background-color:#ff7700; color:#ffffff; }
+.prio-zero { /*background-color:#dedede;*/ }
+.task-prio.prio-zero { display:none; } 
 
 .form-row { margin-top:8px; }
 .form-row .h { font-weight:bold; color:#333333; }

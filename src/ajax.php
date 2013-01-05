@@ -153,8 +153,8 @@ elseif(isset($_GET['fullNewTask']))
 	$title = trim(_post('title'));
 	$note = str_replace("\r\n", "\n", trim(_post('note')));
 	$prio = (int)_post('prio');
-	if($prio < -2) $prio = -2;
-	elseif($prio > 4) $prio = 4;
+	if($prio < -1) $prio = -1;
+	elseif($prio > 2) $prio = 2;
 	$duedate = parse_duedate(trim(_post('duedate')));
 	$t = array();
 	$t['total'] = 0;
@@ -228,8 +228,8 @@ elseif(isset($_GET['editTask']))
 	$title = trim(_post('title'));
 	$note = str_replace("\r\n", "\n", trim(_post('note')));
 	$prio = (int)_post('prio');
-	if($prio < -2) $prio = -2;
-	elseif($prio > 4) $prio = 4;
+	if($prio < -1) $prio = -1;
+	elseif($prio > 2) $prio = 2;
 	$duedate = parse_duedate(trim(_post('duedate')));
 	$t = array();
 	$t['total'] = 0;
@@ -324,8 +324,8 @@ elseif(isset($_GET['setPrio']))
 	check_write_access();
 	$id = (int)$_GET['setPrio'];
 	$prio = (int)_get('prio');
-	if($prio < -2) $prio = -2;
-	elseif($prio > 4) $prio = 4;
+	if($prio < -1) $prio = -1;
+	elseif($prio > 2) $prio = 2;
 	$db->ex("UPDATE {$db->prefix}todolist SET prio=$prio,d_edited=? WHERE id=$id", array(time()) );
 	$t = array();
 	$t['total'] = 1;
@@ -554,8 +554,6 @@ function prepareTaskRow($r)
 		'dueStr' => htmlarray($r['compl'] && $dueA['timestamp'] ? formatTime($formatCompletedInline, $dueA['timestamp']) : $dueA['str']),
 		'dueInt' => date2int($r['duedate']),
 		'dueTitle' => htmlarray(sprintf($lang->get('taskdate_inline_duedate'), $dueA['formatted'])),
-        'duetime' => (isset($r['duetime']) ? $r['duetime'] : ''),
-        'nest_level' => (isset($r['nest_level']) ? $r['nest_level'] : 0)
 	);
 }
 
@@ -603,8 +601,8 @@ function inputTaskParams()
 		'listId' => (int)_post('list'),
 
 	);
-	if($a['prio'] < -2) $a['prio'] = -2;
-	elseif($a['prio'] > 4) $a['prio'] = 4;
+	if($a['prio'] < -1) $a['prio'] = -1;
+	elseif($a['prio'] > 2) $a['prio'] = 2;
 	return $a;
 }
 
@@ -674,8 +672,8 @@ function parse_smartsyntax($title)
 	$a['prio'] = isset($m[2]) ? (int)$m[2] : 0;
 	$a['title'] = isset($m[3]) ? trim($m[3]) : '';
 	$a['tags'] = isset($m[5]) ? trim($m[5]) : '';
-	if($a['prio'] < -2) $a['prio'] = -2;
-	elseif($a['prio'] > 4) $a['prio'] = 4;
+	if($a['prio'] < -1) $a['prio'] = -1;
+	elseif($a['prio'] > 2) $a['prio'] = 2;
 	return $a;
 }
 

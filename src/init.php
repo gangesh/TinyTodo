@@ -10,7 +10,7 @@ if(!defined('MTTPATH')) define('MTTPATH', dirname(__FILE__) .'/');
 require_once(MTTPATH. 'common.php');
 require_once(MTTPATH. 'db/config.php');
 
-ini_set('display_errors', 0);
+ini_set('display_errors', 'On');
 
 if(!isset($config)) global $config;
 Config::loadConfig($config);
@@ -45,7 +45,6 @@ require_once(MTTPATH. 'lang/'.Config::get('lang').'.php');
 
 $_mttinfo = array();
 
-
 $needAuth = (Config::get('password') != '') ? 1 : 0;
 if($needAuth && !isset($dontStartSession))
 {
@@ -62,20 +61,6 @@ if($needAuth && !isset($dontStartSession))
 	session_set_cookie_params(1209600, url_dir(Config::get('url')=='' ? $_SERVER['REQUEST_URI'] : Config::get('url'))); # 14 days session cookie lifetime
 	session_name('mtt-session');
 	session_start();
-}
-
-function use_mobile()
-{
-	if(!defined("MTT_TEMPLATE_VAR")) {
-		require_once(MTTPATH . "Mobile_Detect.php");
-		$detect = new Mobile_Detect();
-		if($detect->isMobile()) {
-			//TODO: Add support for tablets?
-			define("MTT_TEMPLATE_VAR", 'mobiletemplate');
-		} else {
-			define("MTT_TEMPLATE_VAR", 'template');
-		}
-	}
 }
 
 function is_logged()
@@ -140,11 +125,10 @@ function get_mttinfo($v)
 {
 	global $_mttinfo;
 	if(isset($_mttinfo[$v])) return $_mttinfo[$v];
-	use_mobile();
 	switch($v)
 	{
 		case 'template_url':
-			$_mttinfo['template_url'] = get_mttinfo('mtt_url'). 'themes/'. Config::get(MTT_TEMPLATE_VAR) . '/';
+			$_mttinfo['template_url'] = get_mttinfo('mtt_url'). 'themes/'. Config::get('template') . '/';
 			return $_mttinfo['template_url'];
 		case 'url':
 			$_mttinfo['url'] = Config::get('url');
@@ -157,7 +141,7 @@ function get_mttinfo($v)
 			if($_mttinfo['mtt_url'] == '') $_mttinfo['mtt_url'] = url_dir(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['SCRIPT_NAME']);
 			return $_mttinfo['mtt_url'];
 		case 'title':
-			$_mttinfo['title'] = (Config::get('title') != '') ? htmlarray(Config::get('title')) : __('My Tiny Todolist');
+			$_mttinfo['title'] = (Config::get('title') != '') ? htmlarray(Config::get('title')) : __('Tiny Todolist');
 			return $_mttinfo['title'];
 	}
 }
