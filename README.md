@@ -1,7 +1,7 @@
-myTinyTodo
+TinyTodo
 ==========
 
-myTinyTodo is based on Max Pozdeev's myTinyTodo. Since development is
+TinyTodo is based on Max Pozdeev's myTinyTodo. Since development is
 abbandoned there, a fork is created and further developed.
 
 System requirements
