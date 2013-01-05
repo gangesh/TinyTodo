@@ -1,0 +1,108 @@
+		###################################
+		##   PHPMYLOGON: A LOGIN SYSTEM  ##
+		##    (c) 2006 Jorik Berkepas    ##
+		##   Under the GNU GPL license   ##
+		##     helpdesk90@gmail.com      ##
+		###################################
+PhpMyLogon version 1.1 release pages file
+
+In this page you can find what every page from PhpMyLogon does.
+Also a few notes for including the loginsystem are in this file.
+
+  INDEX:
+ - Pages
+ - Including notes
+ - ERROR: 'A session had already been started' explanation
+
+
+  PAGES
+ activate.php
+  > This page is for activating accounts after password recovery or registration
+ admin.php
+  > This file is the admin for editing/deleting users. Only viewable if admin logged in
+ config.php
+  > note: will be created by setup.php at the installation
+  > In this file are all your settings
+ forgotpass.php
+  > Page for password recovery. Link to this page on the bottom of the loginform at login.php
+ htmlbottom.php
+  > This page is included at the end of every page from PhpMyLogon
+  > If you want something at the bottom of your pages (like copyright or something, or layout)
+  > then is this the right place to place it.
+ htmltop.php
+  > This page is included at the top of every page from PhpMyLogon
+  > You can add your layout and that stuff in this page.
+ login.php
+  > The page for logging in. Let your users go to this page to login
+ logout.php
+  > The page for logging OUT. Let your users go to this page to log OUT (make sure there is an
+  > link to this page; otherwise users can't logout!)
+ memberlist.php
+  > List of all the members
+ memberonline.php
+  > note: include this page on another page; don't use it alone. Page is missing html-tags etc
+  > Page for viewing the members online at secured pages in the past five minutes
+ registrate.php
+  > Page for registrating an account
+ safe.php
+  > Page to include (by using require!) to secure page
+  > It will view the page only to logged in (or cookied) users
+ safe_admin.php
+  > Page to include (by using require!) to admin-secure a page
+  > It will view the page only to logged in (or cookied) admins
+ setup.php
+  > note: Self destructing after use
+  > Run this page for installation, it will create the database table and the config.php-file
+ useroptions.php
+  > Page for users for changing their password and e-mailaddress.
+ style.css
+  > The style-file for PhpMyLogon. You can change this file for editing the layout. If you prefer
+  > using your own css-file, edit the 13th line in htmltop.php
+
+  INCLUDING NOTES
+When you want to include PhpMyLogon into your website, make sure you edit all the links in all
+pages.
+A better option for including your layout is to include your layout at the htmltop.php and
+htmlbottom.php files.
+If you want to secure page, use safe.php.
+Include it with the require() function in stead of the include() function.
+Why? It's safer. Check out the PhpMyLogon(.sf.net)-website to see an example.
+example for securing pages:
+
+ ## mysecuredpage.php (< note; no .html pages!) ##
+<?
+require("safe.php");
+?>
+<html>
+<head>
+<title>Welcome!</title>
+</head>
+<body>
+Welcome; you are logged in!
+</body>
+</html>
+ ## end ##
+
+For an admin-page, use safe_admin.php in stead of safe.php.
+
+
+  ERROR 'A session had already been started'
+When you get this error, it means 'session_start()' is on two places placed.
+To avoid this problem, you can delete the session_start() in config.php.
+note: when you delete session_start() in config.php and you don't have anywhere else
+      session_start, PhpMyLogon won't work anymore!
+
+To find out where the other session_start() is placed, see your error.
+Some errors:
+
+Warning: session_start(): Cannot send session cookie - headers already sent by (output started at
+/home/yourname/apage.php:10) in /home/yourname/config.php on line 8
+The URL displayed between ( and ) is the URL with a session_start, after the : stays the linenumber,
+after the 'in' is the other session_start(), after the : is also the linenumber.
+
+Notice: A session had already been started - ignoring session_start()
+in /home/yourname/apage.php on line 3
+In this error message just one session_start() is displayed. Also here is the file with session_start
+displayed and the line number.
+
+In Windows Notepad, you go to a specified linenumber by pressing CTRL+G.
